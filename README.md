@@ -25,7 +25,7 @@ JavaScript (Vanilla JS) – Calculator logic and interactions
 All HTML, CSS, and JavaScript are written in a single file for simplicity.
 ▶️ How to Run the Project
 Download or clone the repository
-git clone https://github.com/your-username/iphone-calculator.git
+git clone https://github.com/Parthh-15/CALCULATOR-USING-HTML/edit/main/README.md
 Open cal.html in any modern web browser
 (Chrome, Edge, Firefox, Safari)
 📸 Preview
