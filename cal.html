@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>iPhone Calculator</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #111;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .calculator {
+        width: 320px;
+        background: black;
+        border-radius: 30px;
+        padding: 20px;
+    }
+
+    .display {
+        color: white;
+        font-size: 48px;
+        text-align: right;
+        padding: 20px 10px;
+        overflow: hidden;
+    }
+
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+
+    button {
+        height: 65px;
+        border-radius: 50%;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .gray {
+        background: #a5a5a5;
+        color: black;
+    }
+
+    .dark {
+        background: #333;
+        color: white;
+    }
+
+    .orange {
+        background: #ff9f0a;
+        color: white;
+    }
+
+    .zero {
+        grid-column: span 2;
+        border-radius: 40px;
+        text-align: left;
+        padding-left: 25px;
+    }
+
+    button:active {
+        filter: brightness(1.2);
+    }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <div id="display" class="display">0</div>
+
+    <div class="buttons">
+        <button class="gray" onclick="clearDisplay()">AC</button>
+        <button class="gray" onclick="toggleSign()">±</button>
+        <button class="gray" onclick="percentage()">%</button>
+        <button class="orange" onclick="setOperator('/')">÷</button>
+
+        <button class="dark" onclick="appendNumber('7')">7</button>
+        <button class="dark" onclick="appendNumber('8')">8</button>
+        <button class="dark" onclick="appendNumber('9')">9</button>
+        <button class="orange" onclick="setOperator('*')">×</button>
+
+        <button class="dark" onclick="appendNumber('4')">4</button>
+        <button class="dark" onclick="appendNumber('5')">5</button>
+        <button class="dark" onclick="appendNumber('6')">6</button>
+        <button class="orange" onclick="setOperator('-')">−</button>
+
+        <button class="dark" onclick="appendNumber('1')">1</button>
+        <button class="dark" onclick="appendNumber('2')">2</button>
+        <button class="dark" onclick="appendNumber('3')">3</button>
+        <button class="orange" onclick="setOperator('+')">+</button>
+
+        <button class="dark zero" onclick="appendNumber('0')">0</button>
+        <button class="dark" onclick="appendNumber('.')">.</button>
+        <button class="orange" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+    let display = document.getElementById("display");
+    let current = "0";
+    let operator = null;
+    let previous = null;
+
+    function updateDisplay() {
+        display.textContent = current;
+    }
+
+    function appendNumber(num) {
+        if (current === "0" && num !== ".") {
+            current = num;
+        } else if (num === "." && current.includes(".")) {
+            return;
+        } else {
+            current += num;
+        }
+        updateDisplay();
+    }
+
+    function clearDisplay() {
+        current = "0";
+        operator = null;
+        previous = null;
+        updateDisplay();
+    }
+
+    function toggleSign() {
+        current = (parseFloat(current) * -1).toString();
+        updateDisplay();
+    }
+
+    function percentage() {
+        current = (parseFloat(current) / 100).toString();
+        updateDisplay();
+    }
+
+    function setOperator(op) {
+        if (operator !== null) calculate();
+        previous = current;
+        operator = op;
+        current = "0";
+    }
+
+    function calculate() {
+        if (operator === null || previous === null) return;
+
+        let result;
+        let prev = parseFloat(previous);
+        let curr = parseFloat(current);
+
+        switch (operator) {
+            case "+": result = prev + curr; break;
+            case "-": result = prev - curr; break;
+            case "*": result = prev * curr; break;
+            case "/": result = curr === 0 ? "Error" : prev / curr; break;
+        }
+
+        current = result.toString();
+        operator = null;
+        previous = null;
+        updateDisplay();
+    }
+</script>
+
+</body>
+</html>
